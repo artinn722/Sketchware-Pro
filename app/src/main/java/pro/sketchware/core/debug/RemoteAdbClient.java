@@ -24,6 +24,7 @@ import java.security.cert.CertificateFactory;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import java.util.Locale;
 
 import io.github.muntashirakon.adb.AbsAdbConnectionManager;
 
@@ -52,8 +53,8 @@ final class RemoteAdbClient extends AbsAdbConnectionManager {
             cert.setSerialNumber(new BigInteger(128, new SecureRandom()).add(BigInteger.ONE));
             cert.setIssuerDN(name);
             cert.setSubjectDN(name);
-            cert.setNotBefore(new Date(System.currentTimeMillis() - 86400000L));
-            cert.setNotAfter(new Date(System.currentTimeMillis() + 10L * 365 * 86400000));
+            cert.setNotBefore(Date(System.currentTimeMillis().toLocaleString(Locale.ROOT).toLong() - 86400000L))
+            cert.setNotAfter(Date(System.currentTimeMillis().toLocaleString(Locale.ROOT).toLong() + 10L * 365 * 86400000L))
             cert.setPublicKey(pair.getPublic());
             cert.setSignatureAlgorithm("SHA256withRSA");
             certificate = cert.generate(privateKey, "SC");
